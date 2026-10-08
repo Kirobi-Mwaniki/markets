@@ -1,0 +1,29 @@
+# Netlify settings for Kasi Markets.
+# The pages in public/ are served as a static site; netlify/functions/api.mjs runs the API.
+
+[build]
+  publish = "public"
+  command = "echo 'No build step needed'"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# /newsroom opens the newsroom page
+[[redirects]]
+  from = "/newsroom"
+  to = "/newsroom.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; script-src 'self'; frame-ancestors 'none'"
+
+[[headers]]
+  for = "/newsroom*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
